@@ -1,0 +1,24 @@
+spring:
+  profiles.active: postgres
+server:
+  port: 8083
+---
+spring:
+  config.activate.on-profile: postgres
+  datasource:
+    url: jdbc:postgresql://localhost:5462/creditdb
+    username: credit
+    password: credit
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate.default_schema: credit
+      hibernate.jdbc.time_zone: UTC
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    default-schema: credit
+    schemas: credit
+    baseline-on-migrate: true
+    validate-on-migrate: true
