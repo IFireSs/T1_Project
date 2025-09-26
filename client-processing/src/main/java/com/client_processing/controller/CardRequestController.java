@@ -1,0 +1,19 @@
+package com.client_processing.controller;
+
+import com.client_processing.dto.CreateCardDto;
+import com.client_processing.service.CardService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/api/cards")
+@RequiredArgsConstructor
+public class CardRequestController {
+    private final CardService cardService;
+
+    @PostMapping("/create")
+    public ResponseEntity<Void> requestCard(@RequestBody CreateCardDto dto) {
+        return cardService.requestCard(dto);
+    }
+}

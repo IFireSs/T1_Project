@@ -33,8 +33,8 @@ CREATE INDEX IF NOT EXISTS ix_products_key ON products("key");
 
 CREATE TABLE IF NOT EXISTS client_products (
     id         BIGSERIAL PRIMARY KEY,
-    client_id  BIGINT      NOT NULL,
-    product_id BIGINT      NOT NULL,
+    client_id  VARCHAR(12)     NOT NULL,
+    product_id VARCHAR(64)      NOT NULL,
     open_date  DATE,
     close_date DATE,
     status     VARCHAR(32)

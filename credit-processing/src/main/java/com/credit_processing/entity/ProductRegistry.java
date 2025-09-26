@@ -22,13 +22,17 @@ public class ProductRegistry {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
     @Column(name = "client_id")
-    private Long clientId;
+    private String clientId;
     @Column(name = "account_id")
-    private Long accountId;
+    private Long accountId = 0L;
     @Column(name = "product_id")
-    private Long productId;
+    private String productId;
     @Column(name = "interest_rate")
     private BigDecimal interestRate;
     @Column(name = "open_date")
     private LocalDate openDate;
+    @Column(name = "month_count")
+    private Integer monthCount;
+    @Column(name = "principal_amount")
+    private BigDecimal principalAmount;
 }

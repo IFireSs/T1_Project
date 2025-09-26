@@ -1,7 +1,7 @@
 INSERT INTO product_registry (id, client_id, account_id, product_id, interest_rate, open_date) VALUES
-    (1, 1001, 5001, 20001, 0.120000, DATE '2025-01-15'),
-    (2, 1001, 5002, 20002, 0.250000, DATE '2025-03-01'),
-    (3, 1002, 5003, 20003, 0.180000, DATE '2025-06-10');
+    (1, '770100000001', 5001, 'DC1', 0.120000, DATE '2025-01-15'),
+    (2, '770100000001', 5002, 'CC2', 0.250000, DATE '2025-03-01'),
+    (3, '770100000001', 5003, 'AC4', 0.180000, DATE '2025-06-10');
 
 INSERT INTO payment_registry (id, product_registry_id, payment_date, amount, interest_rate_amount, debt_amount, expired, payment_expiration_date) VALUES
     (1, 1, DATE '2025-02-15',  5000.00, 1200.00, 38000.00, FALSE, DATE '2025-02-20'),

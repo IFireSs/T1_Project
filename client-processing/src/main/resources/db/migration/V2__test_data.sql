@@ -15,9 +15,9 @@ VALUES
 
 INSERT INTO client_products (id, client_id, product_id, open_date, status)
 VALUES
-    (1, 1, 1, CURRENT_DATE, 'ACTIVE'),
-    (2, 1, 3, CURRENT_DATE, 'ACTIVE'),
-    (3, 2, 2, CURRENT_DATE, 'BLOCKED');
+    (1, '770100000001', 'DC1', CURRENT_DATE, 'ACTIVE'),
+    (2, '770100000001', 'CC2', CURRENT_DATE, 'ACTIVE'),
+    (3, '770200000023', 'PENS3', CURRENT_DATE, 'BLOCKED');
 
 SELECT setval('users_id_seq',         (SELECT COALESCE(MAX(id),0) FROM users), true);
 SELECT setval('clients_id_seq',       (SELECT COALESCE(MAX(id),0) FROM clients), true);

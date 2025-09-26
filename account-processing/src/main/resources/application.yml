@@ -20,3 +20,12 @@ spring:
     schemas: account
     baseline-on-migrate: true
     validate-on-migrate: true
+  kafka:
+    bootstrap-servers: localhost:9091
+    consumer:
+      group-id: account-processing
+
+topics:
+   client-products: client_products
+   client-cards: client_cards
+   client-transactions: client_transactions

@@ -1,8 +1,8 @@
 CREATE TABLE IF NOT EXISTS product_registry (
     id             BIGSERIAL     PRIMARY KEY,
-    client_id      BIGINT        NOT NULL,
+    client_id      VARCHAR(12)   NOT NULL,
     account_id     BIGINT        NOT NULL,
-    product_id     BIGINT        NOT NULL,
+    product_id     VARCHAR(64)   NOT NULL,
     interest_rate  NUMERIC(9,6)  NOT NULL,
     open_date      DATE          NOT NULL
     );

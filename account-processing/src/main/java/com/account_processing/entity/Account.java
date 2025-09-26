@@ -24,9 +24,9 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
     @Column(name = "client_id")
-    private Long clientId;
-    @Column(name = "product_id")
-    private Long productId;
+    private String clientId;
+    @Column(name = "product_id", nullable = false, unique = true)
+    private String productId;
     @Column(name = "balance")
     private BigDecimal balance;
     @Column(name = "interest_rate", precision = 9, scale = 6)

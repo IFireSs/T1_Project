@@ -20,3 +20,15 @@ spring:
     schemas: client
     baseline-on-migrate: true
     validate-on-migrate: true
+  kafka:
+    bootstrap-servers: localhost:9091
+    consumer:
+      group-id: client-processing
+      properties:
+        spring.json.trusted.packages: "*"
+    properties:
+      spring.json.add.type.headers: true
+topics:
+  client-products: client_products
+  client-cards: client_cards
+  client-credit-products: client_credit_products

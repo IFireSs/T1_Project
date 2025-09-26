@@ -1,6 +1,7 @@
 package com.client_processing.entity;
 
 import com.client_processing.enums.ClientProductStatus;
+import com.client_processing.enums.ProductKey;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -25,10 +26,10 @@ public class ClientProduct {
     Long Id;
 
     @Column(name = "client_id")
-    private Long clientId;
+    private String clientId;
 
     @Column(name = "product_id")
-    private Long productId;
+    private String productId;
 
     @Column(name = "open_date")
     private LocalDate openDate;
@@ -38,5 +39,5 @@ public class ClientProduct {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
-    private ClientProductStatus status;
+    private ClientProductStatus status = ClientProductStatus.ACTIVE;
 }
