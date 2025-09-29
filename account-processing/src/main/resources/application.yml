@@ -1,0 +1,22 @@
+spring:
+  profiles.active: postgres
+server.port: 8082
+---
+spring:
+  config.activate.on-profile: postgres
+  datasource:
+    url: jdbc:postgresql://localhost:5460/accountdb
+    username: account
+    password: account
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate.default_schema: account
+      hibernate.jdbc.time_zone: UTC
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    schemas: account
+    baseline-on-migrate: true
+    validate-on-migrate: true

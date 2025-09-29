@@ -1,0 +1,12 @@
+services:
+  pg:
+    image: postgres:16
+    container_name: credit-pg
+    environment:
+      POSTGRES_USER: credit
+      POSTGRES_PASSWORD: credit
+      POSTGRES_DB: creditdb
+    ports:
+      - "5462:5432"
+    volumes:
+      - /mnt/c/Users/Pavel/IdeaProjects/HM_project/credit-processing/pg-init:/docker-entrypoint-initdb.d:ro

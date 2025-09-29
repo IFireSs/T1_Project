@@ -1,0 +1,12 @@
+services:
+  pg:
+    image: postgres:16
+    container_name: client-pg
+    environment:
+      POSTGRES_USER: client
+      POSTGRES_PASSWORD: client
+      POSTGRES_DB: clientdb
+    ports:
+      - "5461:5432"
+    volumes:
+      - /mnt/c/Users/Pavel/IdeaProjects/HM_project/client-processing/pg-init:/docker-entrypoint-initdb.d:ro

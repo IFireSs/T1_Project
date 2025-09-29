@@ -1,0 +1,36 @@
+services:
+  pg:
+    image: postgres:16
+    container_name: account-pg
+    environment:
+      POSTGRES_USER: account
+      POSTGRES_PASSWORD: account
+      POSTGRES_DB: accountdb
+    ports:
+      - "5460:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U account -d accountdb"]
+      interval: 3s
+      timeout: 3s
+      retries: 10
+    volumes:
+      - /mnt/c/Users/Pavel/IdeaProjects/HM_project/account-processing/pg-init:/docker-entrypoint-initdb.d:ro
+
+  app:
+    build: .
+    container_name: account-app
+    depends_on:
+      pg:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: postgres
+      SPRING_DATASOURCE_URL: jdbc:postgresql://pg:5432/accountdb
+      SPRING_DATASOURCE_USERNAME: account
+      SPRING_DATASOURCE_PASSWORD: account
+      SPRING_JPA_HIBERNATE_DDL_AUTO: validate
+      SPRING_JPA_PROPERTIES_HIBERNATE_DEFAULT_SCHEMA: account
+      SPRING_FLYWAY_SCHEMAS: account
+      SPRING_FLYWAY_BASELINE_ON_MIGRATE: "true"
+      SPRING_FLYWAY_LOCATIONS: classpath:db/migration
+    ports:
+      - "8082:8082"
