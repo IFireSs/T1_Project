@@ -55,14 +55,16 @@ public class ProductCommandService {
 
     @Transactional
     public void update(String clientId, String productId, LocalDate open, LocalDate close) {
-        Account p = productRepository.findTopByClientIdAndProductIdOrderByIdDesc(clientId, productId)
-                .orElseGet(() -> {
-                    Account np = new Account();
-                    np.setClientId(clientId);
-                    np.setProductId(productId);
-                    return np;
-                });
-        productRepository.save(p);
+        productRepository.findByProductId(productId).ifPresentOrElse(acc -> {
+            if (!Objects.equals(acc.getClientId(), clientId)) {
+                log.warn("Update: productId={} belongs to clientId={} but request clientId={}",
+                        productId, acc.getClientId(), clientId);
+            }
+            if (close != null) {
+                acc.setStatus(AccountStatus.CLOSED);
+            }
+            productRepository.save(acc);
+        }, () -> log.warn("Account for productId={} not found on update", productId));
     }
 
     @Transactional

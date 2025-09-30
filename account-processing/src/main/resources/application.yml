@@ -29,3 +29,9 @@ topics:
    client-products: client_products
    client-cards: client_cards
    client-transactions: client_transactions
+   client-payments: client_payments
+
+processing:
+  fraud:
+    window-seconds: 60
+    threshold: 5

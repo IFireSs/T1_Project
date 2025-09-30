@@ -1,0 +1,3 @@
+ALTER TABLE payments
+    ADD COLUMN IF NOT EXISTS expired BOOLEAN NOT NULL DEFAULT FALSE;
+CREATE INDEX IF NOT EXISTS ix_payments_expired ON payments(expired);

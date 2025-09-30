@@ -1,6 +1,5 @@
 package com.account_processing.dto;
 
-import com.account_processing.enums.TransactionType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,12 +13,10 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ClientTransactionMessage {
+public class ClientPaymentMessage {
     private UUID id;
     private String clientId;
     private String productId;
-    private String cardId;
-    private TransactionType type;
     private BigDecimal amount;
     private Instant ts;
 }

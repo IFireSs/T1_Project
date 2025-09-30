@@ -1,5 +1,6 @@
 package com.account_processing.kafka;
 
+import com.account_processing.dto.ClientPaymentMessage;
 import com.account_processing.dto.ClientProductMessage;
 import com.account_processing.dto.ClientTransactionMessage;
 import com.account_processing.dto.CreateCardRequest;
@@ -107,17 +108,14 @@ public class KafkaConsumerConfig {
     public ConsumerFactory<String, ClientTransactionMessage> clientTransactionConsumerFactory(
             KafkaProperties props
     ) {
-        Map<String, Object> cfg = baseConsumerProps(props);
-
-        JsonDeserializer<ClientTransactionMessage> value = new JsonDeserializer<>(ClientTransactionMessage.class, false);
-        value.addTrustedPackages("*");
-        value.ignoreTypeHeaders();
-
-        return new DefaultKafkaConsumerFactory<>(
-                cfg,
-                new StringDeserializer(),
-                value
-        );
+        Map<String, Object> cfg = props.buildConsumerProperties();
+        cfg.put(org.apache.kafka.clients.consumer.ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+        cfg.put(org.apache.kafka.clients.consumer.ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG,
+                org.springframework.kafka.support.serializer.JsonDeserializer.class);
+        cfg.put(org.springframework.kafka.support.serializer.JsonDeserializer.TRUSTED_PACKAGES, "*");
+        cfg.put(org.springframework.kafka.support.serializer.JsonDeserializer.VALUE_DEFAULT_TYPE,
+                ClientTransactionMessage.class.getName());
+        return new DefaultKafkaConsumerFactory<>(cfg);
     }
 
     @Bean
@@ -131,6 +129,31 @@ public class KafkaConsumerConfig {
         f.setCommonErrorHandler(errorHandler);
         return f;
     }
+
+    @Bean
+    public ConsumerFactory<String, ClientPaymentMessage> clientPaymentConsumerFactory(
+            KafkaProperties props
+    ) {
+        Map<String, Object> cfg = props.buildConsumerProperties();
+        cfg.put(org.apache.kafka.clients.consumer.ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+        cfg.put(org.apache.kafka.clients.consumer.ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG,
+                org.springframework.kafka.support.serializer.JsonDeserializer.class);
+        cfg.put(org.springframework.kafka.support.serializer.JsonDeserializer.TRUSTED_PACKAGES, "*");
+        cfg.put(org.springframework.kafka.support.serializer.JsonDeserializer.VALUE_DEFAULT_TYPE,
+                ClientPaymentMessage.class.getName());
+        return new DefaultKafkaConsumerFactory<>(cfg);
+    }
+
+    @Bean
+    public ConcurrentKafkaListenerContainerFactory<String, ClientPaymentMessage> clientPaymentKafkaListenerContainerFactory(
+            ConsumerFactory<String, ClientPaymentMessage> clientPaymentConsumerFactory
+    ) {
+        var f = new ConcurrentKafkaListenerContainerFactory<String, ClientPaymentMessage>();
+        f.setConsumerFactory(clientPaymentConsumerFactory);
+        f.setCommonErrorHandler(errorHandler());
+        return f;
+    }
+
     private DefaultErrorHandler errorHandler() {
         var backoff = new ExponentialBackOff(500L, 2.0);
         backoff.setMaxElapsedTime(10_000L);

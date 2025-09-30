@@ -41,4 +41,6 @@ public class Payment {
     @Enumerated(EnumType.STRING)
     @Column(name = "type")
     private PaymentType type;
+    @Column(name = "expired")
+    private Boolean expired = Boolean.FALSE;
 }
