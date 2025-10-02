@@ -1,5 +1,6 @@
 package com.account_processing.service;
 
+import com.account_processing.aspect.annotations.LogDatasourceError;
 import com.account_processing.dto.ClientProductMessage;
 import com.account_processing.entity.Account;
 import com.account_processing.enums.AccountStatus;
@@ -19,6 +20,7 @@ import java.util.Objects;
 public class ProductCommandService {
     private final AccountRepository productRepository;
 
+    @LogDatasourceError
     @Transactional
     public void handle(ClientProductMessage msg) {
         switch (msg.getOp()) {
@@ -28,6 +30,7 @@ public class ProductCommandService {
         }
     }
 
+    @LogDatasourceError
     @Transactional
     public void create(String clientId, String productId, LocalDate open, LocalDate close) {
         var existing = productRepository.findByProductId(productId);
@@ -53,6 +56,7 @@ public class ProductCommandService {
         }
     }
 
+    @LogDatasourceError
     @Transactional
     public void update(String clientId, String productId, LocalDate open, LocalDate close) {
         productRepository.findByProductId(productId).ifPresentOrElse(acc -> {
@@ -67,6 +71,7 @@ public class ProductCommandService {
         }, () -> log.warn("Account for productId={} not found on update", productId));
     }
 
+    @LogDatasourceError
     @Transactional
     public void delete(String clientId, String productId) {
         productRepository.findByProductId(productId).ifPresent(acc -> {

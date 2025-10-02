@@ -1,5 +1,6 @@
 package com.client_processing.service;
 
+import com.client_processing.aspect.annotations.LogDatasourceError;
 import com.client_processing.dto.Dto;
 import com.client_processing.dto.ErrorDto;
 import com.client_processing.dto.ProductDto;
@@ -34,6 +35,7 @@ public class ProductService {
     private final KafkaMapper kafkaMapper;
     private final ClientKafkaProducer producer;
 
+    @LogDatasourceError
     @Transactional
     public ResponseEntity<Dto> create(ProductDto dto) {
         if(dto.getName() == null || dto.getName().isEmpty()) {
@@ -50,6 +52,7 @@ public class ProductService {
         return ResponseEntity.ok(mapper.toDto(product));
     }
 
+    @LogDatasourceError
     @Transactional
     public ResponseEntity<Dto> update(ProductDto dto) {
         var clientProduct = clientProductRepository.findByProductId(dto.getProductId());
@@ -68,6 +71,7 @@ public class ProductService {
         return ResponseEntity.ok(mapper.toDto(product));
     }
 
+    @LogDatasourceError
     @Transactional(readOnly = true)
     public ResponseEntity<Dto>  get(String productId) {
         if (!repo.existsByProductId(productId)){
@@ -76,11 +80,13 @@ public class ProductService {
         return ResponseEntity.ok(mapper.toDto(repo.findByProductId(productId)));
     }
 
+    @LogDatasourceError
     @Transactional(readOnly = true)
     public ResponseEntity<List<ProductDto>> list() {
         return ResponseEntity.ok(mapper.toDtoList(repo.findAll()));
     }
 
+    @LogDatasourceError
     @Transactional
     public void delete(String productId) {
         var product = repo.findByProductId(productId);

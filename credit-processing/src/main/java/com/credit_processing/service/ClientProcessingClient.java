@@ -1,6 +1,7 @@
 package com.credit_processing.service;
 
 
+import com.credit_processing.aspect.annotations.HttpOutcomeRequestLog;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +25,7 @@ public class ClientProcessingClient {
         private String firstName, middleName, lastName, documentId;
     }
 
+    @HttpOutcomeRequestLog
     public Optional<ClientBrief> getBrief(String clientId) {
         try {
             var url = baseUrl + "/api/clients/" + clientId + "/brief";

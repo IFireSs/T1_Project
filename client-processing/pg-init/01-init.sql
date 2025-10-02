@@ -1,4 +1,4 @@
-CREATE DATABASE clientdb;
+\connect clientdb;
 
 CREATE USER client WITH ENCRYPTED PASSWORD 'client';
 

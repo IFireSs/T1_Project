@@ -1,5 +1,6 @@
 package com.account_processing.service;
 
+import com.account_processing.aspect.annotations.LogDatasourceError;
 import com.account_processing.dto.CreateCardRequest;
 import com.account_processing.entity.Account;
 import com.account_processing.entity.Card;
@@ -24,6 +25,7 @@ public class CardService {
 
     private static final SecureRandom RND = new SecureRandom();
 
+    @LogDatasourceError
     @Transactional
     public void createIfAccountNotBlocked(CreateCardRequest req) {
         var accOpt = accountRepository.findByProductId(req.getProductId());

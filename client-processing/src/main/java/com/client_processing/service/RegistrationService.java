@@ -1,5 +1,6 @@
 package com.client_processing.service;
 
+import com.client_processing.aspect.annotations.LogDatasourceError;
 import com.client_processing.dto.ClientDto;
 import com.client_processing.dto.RegistrationRequest;
 import com.client_processing.dto.RegistrationResponse;
@@ -23,6 +24,7 @@ public class RegistrationService {
     private final UserMapper userMapper;
     private final ClientMapper clientMapper;
 
+    @LogDatasourceError
     @Transactional
     public RegistrationResponse register(RegistrationRequest req) {
         blacklist.check(req);
@@ -52,6 +54,7 @@ public class RegistrationService {
                 .build();
     }
 
+    @LogDatasourceError
     @Transactional
     public ResponseEntity<ClientDto> brief(String clientId) {
         //todo: допилить проверку

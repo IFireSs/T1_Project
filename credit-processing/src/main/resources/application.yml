@@ -29,6 +29,7 @@ spring:
 
 topics:
   client-credit-products: client_credit_products
+  service-logs: service_logs
 
 credit:
   decision:
@@ -39,3 +40,5 @@ credit:
     amount: 1500000       # сумма кредита по умолчанию (для демо)
   mc1:
     base-url: http://localhost:8081
+app:
+  name: credit-processing

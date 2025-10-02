@@ -1,5 +1,6 @@
 package com.client_processing.service;
 
+import com.client_processing.aspect.annotations.LogDatasourceError;
 import com.client_processing.dto.RegistrationRequest;
 import com.client_processing.repository.BlacklistRepository;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 public class BlacklistService {
     private final BlacklistRepository repo;
 
+    @LogDatasourceError
     public void check(RegistrationRequest req) {
         if (req.getEmail()!=null && repo.existsByEmail(req.getEmail()))
             throw new IllegalStateException("Email is blacklisted");

@@ -32,3 +32,7 @@ topics:
   client-products: client_products
   client-cards: client_cards
   client-credit-products: client_credit_products
+  service-logs: service_logs
+
+app:
+  name: client-processing
