@@ -1,6 +1,7 @@
 package com.client_processing.controller;
 
 import com.client_processing.aspect.annotations.HttpIncomeRequestLog;
+import com.client_processing.aspect.annotations.Metric;
 import com.client_processing.dto.ClientProductDto;
 import com.client_processing.dto.Dto;
 import com.client_processing.enums.ProductKey;
@@ -18,12 +19,14 @@ public class ClientPortfolioController {
 
     private final ClientPortfolioService service;
 
+    @Metric
     @HttpIncomeRequestLog
     @PostMapping
     public ResponseEntity<Dto> create(@RequestBody ClientProductDto dto) {
         return service.create(dto);
     }
 
+    @Metric
     @HttpIncomeRequestLog
     @PutMapping("/{productId}")
     public ResponseEntity<Dto> update(@PathVariable String productId, @RequestBody ClientProductDto dto) {
@@ -31,18 +34,21 @@ public class ClientPortfolioController {
         return service.update(dto);
     }
 
+    @Metric
     @HttpIncomeRequestLog
     @GetMapping("/{productId}")
     public ResponseEntity<Dto> get(@PathVariable String productId) {
         return service.get(productId);
     }
 
+    @Metric
     @HttpIncomeRequestLog
     @GetMapping
     public ResponseEntity<List<ClientProductDto>> list() {
         return service.list();
     }
 
+    @Metric
     @HttpIncomeRequestLog
     @DeleteMapping
     public ResponseEntity<Void> delete(@RequestBody ClientProductDto dto) {

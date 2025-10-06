@@ -1,5 +1,6 @@
 package com.client_processing.service;
 
+import com.client_processing.aspect.annotations.Cached;
 import com.client_processing.aspect.annotations.LogDatasourceError;
 import com.client_processing.dto.ClientDto;
 import com.client_processing.dto.RegistrationRequest;
@@ -24,6 +25,7 @@ public class RegistrationService {
     private final UserMapper userMapper;
     private final ClientMapper clientMapper;
 
+    @Cached
     @LogDatasourceError
     @Transactional
     public RegistrationResponse register(RegistrationRequest req) {
@@ -54,6 +56,7 @@ public class RegistrationService {
                 .build();
     }
 
+    @Cached
     @LogDatasourceError
     @Transactional
     public ResponseEntity<ClientDto> brief(String clientId) {

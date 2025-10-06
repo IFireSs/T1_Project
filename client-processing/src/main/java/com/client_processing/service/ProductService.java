@@ -1,5 +1,6 @@
 package com.client_processing.service;
 
+import com.client_processing.aspect.annotations.Cached;
 import com.client_processing.aspect.annotations.LogDatasourceError;
 import com.client_processing.dto.Dto;
 import com.client_processing.dto.ErrorDto;
@@ -35,6 +36,7 @@ public class ProductService {
     private final KafkaMapper kafkaMapper;
     private final ClientKafkaProducer producer;
 
+    @Cached
     @LogDatasourceError
     @Transactional
     public ResponseEntity<Dto> create(ProductDto dto) {
@@ -52,6 +54,7 @@ public class ProductService {
         return ResponseEntity.ok(mapper.toDto(product));
     }
 
+    @Cached
     @LogDatasourceError
     @Transactional
     public ResponseEntity<Dto> update(ProductDto dto) {
@@ -71,6 +74,7 @@ public class ProductService {
         return ResponseEntity.ok(mapper.toDto(product));
     }
 
+    @Cached
     @LogDatasourceError
     @Transactional(readOnly = true)
     public ResponseEntity<Dto>  get(String productId) {
@@ -80,6 +84,7 @@ public class ProductService {
         return ResponseEntity.ok(mapper.toDto(repo.findByProductId(productId)));
     }
 
+    @Cached
     @LogDatasourceError
     @Transactional(readOnly = true)
     public ResponseEntity<List<ProductDto>> list() {
