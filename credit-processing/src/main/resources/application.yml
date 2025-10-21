@@ -46,3 +46,11 @@ app:
     threshold-ms: 250
   cache:
     ttl-ms: 60000
+
+security:
+  jwt:
+    issuer: bank-suite
+    secret: ${JWT_SECRET:change-me-super-secret-256bit-change-this}
+    ttl-sec: 3600
+    service-ttl-sec: 120
+    service-id: ${SERVICE_ID:${spring.application.name}}

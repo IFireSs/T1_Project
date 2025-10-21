@@ -1,9 +1,9 @@
 package com.client_processing.service;
 
-import com.client_processing.aspect.annotations.Cached;
-import com.client_processing.aspect.annotations.LogDatasourceError;
 import com.client_processing.dto.RegistrationRequest;
 import com.client_processing.repository.BlacklistRepository;
+import com.ms.aspects.annotations.Cached;
+import com.ms.aspects.annotations.LogDatasourceError;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

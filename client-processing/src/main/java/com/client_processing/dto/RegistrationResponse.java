@@ -12,4 +12,5 @@ import lombok.NoArgsConstructor;
 public class RegistrationResponse {
     private String clientId;
     private UserDto user;
+    private String token;
 }

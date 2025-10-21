@@ -1,7 +1,7 @@
 package com.client_processing.service;
 
-import com.client_processing.aspect.annotations.Cached;
-import com.client_processing.aspect.annotations.LogDatasourceError;
+import com.ms.aspects.annotations.Cached;
+import com.ms.aspects.annotations.LogDatasourceError;
 import com.client_processing.dto.ClientDto;
 import com.client_processing.dto.RegistrationRequest;
 import com.client_processing.dto.RegistrationResponse;
@@ -11,14 +11,19 @@ import com.client_processing.mapper.ClientMapper;
 import com.client_processing.mapper.UserMapper;
 import com.client_processing.repository.ClientRepository;
 import com.client_processing.repository.UserRepository;
+import com.client_processing.security.JwtService;
+import com.client_processing.security.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class RegistrationService {
+    private final JwtService jwt;
     private final ClientRepository clientRepo;
     private final UserRepository userRepo;
     private final BlacklistService blacklist;
@@ -50,7 +55,9 @@ public class RegistrationService {
                 .documentSuffix(req.getDocumentSuffix())
                 .build());
 
+        var token = jwt.generateForClient(client.getClientId(), List.of(Role.CURRENT_CLIENT));
         return RegistrationResponse.builder()
+                .token(token)
                 .clientId(client.getClientId())
                 .user(userMapper.toDto(user))
                 .build();
@@ -60,7 +67,6 @@ public class RegistrationService {
     @LogDatasourceError
     @Transactional
     public ResponseEntity<ClientDto> brief(String clientId) {
-        //todo: допилить проверку
         return ResponseEntity.ok(clientMapper.toDto(clientRepo.findByClientId(clientId).orElseThrow()));
     }
 }
