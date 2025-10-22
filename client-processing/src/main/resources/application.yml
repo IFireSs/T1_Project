@@ -74,12 +74,3 @@ logging:
   level:
     com.ms.aspects: DEBUG
     org.springframework.kafka: INFO
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include: health,info,prometheus
-  metrics:
-    tags:
-      application: ${spring.application.name}
