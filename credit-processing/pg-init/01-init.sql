@@ -1,4 +1,4 @@
-CREATE DATABASE creditdb;
+\connect creditdb;
 
 CREATE USER credit WITH ENCRYPTED PASSWORD 'credit';
 

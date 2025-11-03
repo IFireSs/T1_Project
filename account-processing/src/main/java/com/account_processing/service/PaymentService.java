@@ -1,6 +1,7 @@
 package com.account_processing.service;
 
 
+import com.account_processing.aspect.annotations.LogDatasourceError;
 import com.account_processing.dto.ClientPaymentMessage;
 import com.account_processing.entity.Account;
 import com.account_processing.entity.Payment;
@@ -27,6 +28,7 @@ public class PaymentService {
     private final AccountRepository accountRepo;
     private final PaymentRepository paymentRepo;
 
+    @LogDatasourceError
     @Transactional
     public void handle(ClientPaymentMessage msg) {
         if (msg == null) return;

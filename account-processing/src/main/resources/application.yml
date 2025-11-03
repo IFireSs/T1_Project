@@ -30,8 +30,12 @@ topics:
    client-cards: client_cards
    client-transactions: client_transactions
    client-payments: client_payments
+   service-logs: service_logs
 
 processing:
   fraud:
     window-seconds: 60
     threshold: 5
+
+app:
+  name: account-processing

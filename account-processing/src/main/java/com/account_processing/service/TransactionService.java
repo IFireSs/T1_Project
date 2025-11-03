@@ -1,6 +1,7 @@
 package com.account_processing.service;
 
 
+import com.account_processing.aspect.annotations.LogDatasourceError;
 import com.account_processing.dto.ClientTransactionMessage;
 import com.account_processing.entity.Account;
 import com.account_processing.entity.Card;
@@ -46,7 +47,7 @@ public class TransactionService {
     @Value("${processing.fraud.threshold:5}")
     private long fraudThreshold;
 
-
+    @LogDatasourceError
     @Transactional
     public void handle(ClientTransactionMessage msg) {
         if (msg == null) return;

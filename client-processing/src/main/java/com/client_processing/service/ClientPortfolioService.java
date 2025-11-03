@@ -1,5 +1,6 @@
 package com.client_processing.service;
 
+import com.client_processing.aspect.annotations.LogDatasourceError;
 import com.client_processing.dto.ClientProductDto;
 import com.client_processing.dto.Dto;
 import com.client_processing.dto.ErrorDto;
@@ -34,6 +35,7 @@ public class ClientPortfolioService {
     @Qualifier("clientProductMapper")
     private final ClientProductMapper mapper;
 
+    @LogDatasourceError
     @Transactional
     public ResponseEntity<Dto> create(ClientProductDto dto) {
         if(!clientRepo.existsByClientId(dto.getClientId())) {
@@ -61,6 +63,7 @@ public class ClientPortfolioService {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
+    @LogDatasourceError
     @Transactional
     public ResponseEntity<Dto> update(ClientProductDto dto) {
         if (!clientRepo.existsByClientId(dto.getClientId())) {
@@ -91,6 +94,7 @@ public class ClientPortfolioService {
 
     }
 
+    @LogDatasourceError
     @Transactional(readOnly = true)
     public ResponseEntity<Dto> get(String productId) {
         if(!repo.existsByProductId(productId)) {
@@ -99,11 +103,13 @@ public class ClientPortfolioService {
         return ResponseEntity.ok(mapper.toDto(repo.findByProductId(productId).orElseThrow()));
     }
 
+    @LogDatasourceError
     @Transactional(readOnly = true)
     public ResponseEntity<List<ClientProductDto>> list() {
         return ResponseEntity.ok(mapper.toDtoList(repo.findAll()));
     }
 
+    @LogDatasourceError
     @Transactional
     public void delete(ClientProductDto dto) {
         var cpOpt = repo.findByProductId(dto.getProductId());

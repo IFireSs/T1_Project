@@ -1,5 +1,6 @@
 package com.client_processing.service;
 
+import com.client_processing.aspect.annotations.LogDatasourceError;
 import com.client_processing.dto.CreateCardDto;
 import com.client_processing.kafka.ClientKafkaProducer;
 import com.client_processing.mapper.KafkaMapper;
@@ -16,6 +17,7 @@ public class CardService {
     private final ClientRepository clientRepository;
     private final ProductRepository productRepository;
 
+    @LogDatasourceError
     public ResponseEntity<Void> requestCard(CreateCardDto dto) {
         if(!clientRepository.existsByClientId(dto.getClientId())) {
             return ResponseEntity.notFound().build();
