@@ -1,7 +1,7 @@
 package com.client_processing.service;
 
-import com.client_processing.aspect.annotations.Cached;
-import com.client_processing.aspect.annotations.LogDatasourceError;
+import com.ms.aspects.annotations.Cached;
+import com.ms.aspects.annotations.LogDatasourceError;
 import com.client_processing.dto.CreateCardDto;
 import com.client_processing.kafka.ClientKafkaProducer;
 import com.client_processing.mapper.KafkaMapper;

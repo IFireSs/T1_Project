@@ -28,11 +28,31 @@ spring:
         spring.json.trusted.packages: "*"
     properties:
       spring.json.add.type.headers: true
+
+aspects:
+  enabled: true
+
+  kafka:
+    enabled: true
+    topic: service_logs
+
+  http:
+     inbound-enabled: true
+     outbound-enabled: true
+
+  metric:
+     enabled: true
+     slow-threshold-ms: 200
+
+  cache:
+     enabled: true
+     ttl: 5m
+
+
 topics:
   client-products: client_products
   client-cards: client_cards
   client-credit-products: client_credit_products
-  service-logs: service_logs
 
 app:
   name: client-processing
@@ -40,3 +60,17 @@ app:
     threshold-ms: 250
   cache:
     ttl-ms: 60000
+
+security:
+  jwt:
+    issuer: bank-suite
+    secret: ${JWT_SECRET:change-me-super-secret-256bit-change-this}
+    ttl-sec: 3600
+    service-ttl-sec: 120
+    service-id: ${SERVICE_ID:${spring.application.name}}
+
+debug: true
+logging:
+  level:
+    com.ms.aspects: DEBUG
+    org.springframework.kafka: INFO

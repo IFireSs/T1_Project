@@ -1,11 +1,11 @@
 package com.client_processing.controller;
 
-import com.client_processing.aspect.annotations.HttpIncomeRequestLog;
-import com.client_processing.aspect.annotations.Metric;
 import com.client_processing.dto.ClientProductDto;
 import com.client_processing.dto.Dto;
 import com.client_processing.enums.ProductKey;
 import com.client_processing.service.ClientPortfolioService;
+import com.ms.aspects.annotations.HttpIncomeRequestLog;
+import com.ms.aspects.annotations.Metric;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

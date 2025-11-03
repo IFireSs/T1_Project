@@ -1,13 +1,15 @@
 package com.client_processing.controller;
 
-import com.client_processing.aspect.annotations.HttpIncomeRequestLog;
-import com.client_processing.aspect.annotations.Metric;
+
 import com.client_processing.dto.Dto;
 import com.client_processing.dto.ProductDto;
 import com.client_processing.service.ProductService;
+import com.ms.aspects.annotations.HttpIncomeRequestLog;
+import com.ms.aspects.annotations.Metric;
 import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,6 +22,7 @@ public class ProductController {
 
     @Metric
     @HttpIncomeRequestLog
+    @PreAuthorize("hasRole('MASTER')")
     @PostMapping
     public ResponseEntity<Dto> create(@RequestBody ProductDto dto) {
         return service.create(dto);
@@ -27,6 +30,7 @@ public class ProductController {
 
     @Metric
     @HttpIncomeRequestLog
+    @PreAuthorize("hasAnyRole('MASTER','GRAND_EMPLOYEE')")
     @PutMapping("/{productId}")
     public ResponseEntity<Dto> update(@PathVariable String productId, @RequestBody ProductDto dto) {
         dto.setProductId(productId);
@@ -49,6 +53,7 @@ public class ProductController {
 
     @Metric
     @HttpIncomeRequestLog
+    @PreAuthorize("hasAnyRole('MASTER','GRAND_EMPLOYEE')")
     @DeleteMapping("/{productId}")
     public ResponseEntity<Void> delete(@PathVariable String productId) {
         service.delete(productId);
