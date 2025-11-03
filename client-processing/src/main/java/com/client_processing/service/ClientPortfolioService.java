@@ -1,5 +1,6 @@
 package com.client_processing.service;
 
+import com.client_processing.aspect.annotations.Cached;
 import com.client_processing.aspect.annotations.LogDatasourceError;
 import com.client_processing.dto.ClientProductDto;
 import com.client_processing.dto.Dto;
@@ -35,6 +36,7 @@ public class ClientPortfolioService {
     @Qualifier("clientProductMapper")
     private final ClientProductMapper mapper;
 
+    @Cached
     @LogDatasourceError
     @Transactional
     public ResponseEntity<Dto> create(ClientProductDto dto) {
@@ -63,6 +65,7 @@ public class ClientPortfolioService {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
+    @Cached
     @LogDatasourceError
     @Transactional
     public ResponseEntity<Dto> update(ClientProductDto dto) {
@@ -94,6 +97,7 @@ public class ClientPortfolioService {
 
     }
 
+    @Cached
     @LogDatasourceError
     @Transactional(readOnly = true)
     public ResponseEntity<Dto> get(String productId) {
@@ -103,6 +107,7 @@ public class ClientPortfolioService {
         return ResponseEntity.ok(mapper.toDto(repo.findByProductId(productId).orElseThrow()));
     }
 
+    @Cached
     @LogDatasourceError
     @Transactional(readOnly = true)
     public ResponseEntity<List<ClientProductDto>> list() {

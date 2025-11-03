@@ -39,3 +39,7 @@ processing:
 
 app:
   name: account-processing
+  metric:
+    threshold-ms: 250
+  cache:
+    ttl-ms: 60000

@@ -36,3 +36,7 @@ topics:
 
 app:
   name: client-processing
+  metric:
+    threshold-ms: 250
+  cache:
+    ttl-ms: 60000

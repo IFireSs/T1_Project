@@ -1,6 +1,7 @@
 package com.client_processing.controller;
 
 import com.client_processing.aspect.annotations.HttpIncomeRequestLog;
+import com.client_processing.aspect.annotations.Metric;
 import com.client_processing.dto.Dto;
 import com.client_processing.dto.ProductDto;
 import com.client_processing.service.ProductService;
@@ -17,12 +18,14 @@ import java.util.List;
 public class ProductController {
     private final ProductService service;
 
+    @Metric
     @HttpIncomeRequestLog
     @PostMapping
     public ResponseEntity<Dto> create(@RequestBody ProductDto dto) {
         return service.create(dto);
     }
 
+    @Metric
     @HttpIncomeRequestLog
     @PutMapping("/{productId}")
     public ResponseEntity<Dto> update(@PathVariable String productId, @RequestBody ProductDto dto) {
@@ -30,18 +33,21 @@ public class ProductController {
         return service.update(dto);
     }
 
+    @Metric
     @HttpIncomeRequestLog
     @GetMapping("/{productId}")
     public ResponseEntity<Dto> get(@PathVariable("productId") String id) {
         return service.get(id);
     }
 
+    @Metric
     @HttpIncomeRequestLog
     @GetMapping
     public ResponseEntity<List<ProductDto>> list() {
         return service.list();
     }
 
+    @Metric
     @HttpIncomeRequestLog
     @DeleteMapping("/{productId}")
     public ResponseEntity<Void> delete(@PathVariable String productId) {
