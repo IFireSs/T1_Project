@@ -22,3 +22,20 @@ spring:
     schemas: credit
     baseline-on-migrate: true
     validate-on-migrate: true
+  kafka:
+    bootstrap-servers: localhost:9091
+    consumer:
+      group-id: credit-processing
+
+topics:
+  client-credit-products: client_credit_products
+
+credit:
+  decision:
+    limit: 5000000        # лимит N (сумма A+B+C) для отказа/одобрения
+  defaults:
+    annualRate: 0.22      # ставка по умолчанию (если не придёт откуда-то ещё)
+    monthCount: 60        # месяцев по умолчанию
+    amount: 1500000       # сумма кредита по умолчанию (для демо)
+  mc1:
+    base-url: http://localhost:8081

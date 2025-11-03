@@ -1,13 +1,13 @@
 INSERT INTO accounts (id, client_id, product_id, balance, interest_rate, is_recalc, card_exist, status)
 VALUES
-    (1, 1001, 2001, 10000.00, 0.050000, TRUE, TRUE,  'ACTIVE'),
-    (2, 1001, 2003,  2500.00, 0.000000, TRUE, FALSE, 'ACTIVE'),
-    (3, 1002, 2002,  -300.00, 0.250000, FALSE, TRUE, 'BLOCKED');
+    (1, '770100000001', 'DC1', 10000.00, 0.050000, TRUE, TRUE,  'ACTIVE'),
+    (2, '770100000001', 'CC2',  2500.00, 0.000000, TRUE, FALSE, 'ACTIVE'),
+    (3, '770100000001', 'PENS3',  -300.00, 0.250000, FALSE, TRUE, 'FROZEN');
 
 INSERT INTO cards (id, account_id, card_id, payment_system, status)
 VALUES
     (1, 1, '5333335333331111', 'MASTERCARD', 'ACTIVE'),
-    (2, 3, '4111114111112222', 'VISA',       'BLOCKED');
+    (2, 3, '4111114111112222', 'VISA',       'FROZEN');
 
 
 INSERT INTO payments (id, account_id, payment_date, amount, is_credit, payed_at, type)

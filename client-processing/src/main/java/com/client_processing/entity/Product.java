@@ -24,16 +24,17 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "key")
+    @Column(name = "key", nullable = false)
     private ProductKey key;
 
-    @Column(name = "create_date")
+    @Column(name = "create_date", nullable = false)
     private Instant createDate = Instant.now();
 
     @Column(name = "product_id")
+    @org.hibernate.annotations.Generated(org.hibernate.annotations.GenerationTime.ALWAYS)
     private String productId;
 }

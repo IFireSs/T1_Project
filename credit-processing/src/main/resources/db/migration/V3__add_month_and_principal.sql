@@ -1,0 +1,5 @@
+ALTER TABLE product_registry
+    ADD COLUMN IF NOT EXISTS month_count INT NOT NULL DEFAULT 12;
+
+ALTER TABLE product_registry
+    ADD COLUMN IF NOT EXISTS principal_amount NUMERIC(18,2) NOT NULL DEFAULT 0;
