@@ -1,11 +1,12 @@
 package com.client_processing.repository;
 
+import com.client_processing.entity.ClientProduct;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface OpenProductsMetricsRepository extends org.springframework.data.repository.Repository<Object, Long> {
+public interface OpenProductsMetricsRepository extends org.springframework.data.repository.Repository<ClientProduct, Long> {
 
     interface Row {
         String getKey();

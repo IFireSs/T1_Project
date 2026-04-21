@@ -19,11 +19,12 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest(controllers = RegistrationController.class)
+@WebMvcTest(controllers = RegistrationController.class, properties = "client.jpa.enabled=false")
 @AutoConfigureMockMvc(addFilters = false)
 class RegistrationControllerWebTest {
 
-    @Autowired MockMvc mvc;
+    @Autowired
+    MockMvc mvc;
     @MockitoBean
     RegistrationService registrationService;
 
@@ -36,7 +37,7 @@ class RegistrationControllerWebTest {
                 .build();
         when(registrationService.register(any(RegistrationRequest.class))).thenReturn(resp);
 
-        String body = "{\"login\":\"ann\",\"password\":\"p\",\"email\":\"a@b.c\",}";
+        String body = "{\"login\":\"ann\",\"password\":\"p\",\"email\":\"a@b.c\"}";
 
         mvc.perform(post("/api/clients/register")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -44,6 +45,6 @@ class RegistrationControllerWebTest {
            .andExpect(status().isOk())
            .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
            .andExpect(jsonPath("$.clientId").value("C123"))
-           .andExpect(jsonPath("$.user.firstName").value("Ann"));
+           .andExpect(jsonPath("$.user.login").value("Ann"));
     }
 }

@@ -108,6 +108,26 @@ trim() {
 scriptDir="$(dirname "$0")"
 scriptName="$(basename "$0")"
 
+if [ -z "${JAVA_HOME-}" ] || [ ! -x "${JAVA_HOME}/bin/java" ] || [ "${JAVA_HOME#*21}" = "${JAVA_HOME}" ]; then
+  for candidate in \
+    "${JAVA21_HOME-}" \
+    "${JAVA_HOME_21_X64-}" \
+    "/usr/lib/jvm/java-21-openjdk-amd64" \
+    "/usr/lib/jvm/java-21-openjdk" \
+    "/usr/lib/jvm/jdk-21" \
+    "/Library/Java/JavaVirtualMachines/jdk-21.jdk/Contents/Home"
+  do
+    [ -n "${candidate}" ] || continue
+    if [ -x "$candidate/bin/java" ] && [ -x "$candidate/bin/javac" ]; then
+      JAVA_HOME="$candidate"
+      export JAVA_HOME
+      PATH="$JAVA_HOME/bin:$PATH"
+      export PATH
+      break
+    fi
+  done
+fi
+
 # parse distributionUrl and optional distributionSha256Sum, requires .mvn/wrapper/maven-wrapper.properties
 while IFS="=" read -r key value; do
   case "${key-}" in

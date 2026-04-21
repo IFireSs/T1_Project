@@ -8,6 +8,11 @@ services:
       POSTGRES_DB: clientdb
     ports:
       - "5461:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U client -d clientdb"]
+      interval: 3s
+      timeout: 3s
+      retries: 10
     volumes:
       - /mnt/c/Users/Pavel/IdeaProjects/HM_project/client-processing/pg-init:/docker-entrypoint-initdb.d:ro
 
