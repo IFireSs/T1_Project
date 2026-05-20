@@ -14,7 +14,7 @@ services:
       timeout: 3s
       retries: 10
     volumes:
-      - /mnt/c/Users/Pavel/IdeaProjects/HM_project/client-processing/pg-init:/docker-entrypoint-initdb.d:ro
+      - ./pg-init:/docker-entrypoint-initdb.d:ro
 
   zookeeper_t1:
     image: confluentinc/cp-zookeeper:5.5.0

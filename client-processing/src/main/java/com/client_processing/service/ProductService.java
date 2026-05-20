@@ -7,6 +7,7 @@ import com.client_processing.dto.ErrorDto;
 import com.client_processing.dto.ProductDto;
 import com.client_processing.dto.kafka.ClientProductMessage;
 import com.client_processing.entity.Product;
+import com.client_processing.enums.ProductKey;
 import com.client_processing.kafka.ClientKafkaProducer;
 import com.client_processing.mapper.ClientProductMapper;
 import com.client_processing.mapper.KafkaMapper;
@@ -102,9 +103,21 @@ public class ProductService {
         for (var link : links) {
             var dto = clientProductMapper.toDto(link);
             var msg = kafkaMapper.toClientProductMessage(dto, ClientProductMessage.Op.DELETE);
-            producer.publishClientProduct(msg);
+            publishClientProduct(product.getKey(), msg);
         }
         clientProductRepository.deleteByProductId(productId);
         repo.deleteByProductId(productId);
+    }
+
+    private void publishClientProduct(ProductKey key, ClientProductMessage msg) {
+        if (isCredit(key)) {
+            producer.publishClientCreditProduct(msg);
+        } else {
+            producer.publishClientProduct(msg);
+        }
+    }
+
+    private boolean isCredit(ProductKey key) {
+        return key == ProductKey.IPO || key == ProductKey.PC || key == ProductKey.AC;
     }
 }

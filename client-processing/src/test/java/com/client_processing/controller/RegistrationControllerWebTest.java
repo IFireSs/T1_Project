@@ -37,7 +37,19 @@ class RegistrationControllerWebTest {
                 .build();
         when(registrationService.register(any(RegistrationRequest.class))).thenReturn(resp);
 
-        String body = "{\"login\":\"ann\",\"password\":\"p\",\"email\":\"a@b.c\"}";
+        String body = """
+                {
+                  "clientCode": "000000000123",
+                  "login": "ann",
+                  "password": "password123",
+                  "email": "a@b.c",
+                  "firstName": "Ann",
+                  "lastName": "Smith",
+                  "dateOfBirth": "1990-01-01",
+                  "documentType": "PASSPORT",
+                  "documentId": "123456"
+                }
+                """;
 
         mvc.perform(post("/api/clients/register")
                 .contentType(MediaType.APPLICATION_JSON)

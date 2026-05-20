@@ -6,6 +6,7 @@ import com.client_processing.dto.RegistrationResponse;
 import com.client_processing.service.RegistrationService;
 import com.ms.aspects.annotations.HttpIncomeRequestLog;
 import com.ms.aspects.annotations.Metric;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,7 @@ public class RegistrationController {
     @Metric
     @HttpIncomeRequestLog
     @PostMapping("/register")
-    public ResponseEntity<RegistrationResponse> register(@RequestBody RegistrationRequest req) {
+    public ResponseEntity<RegistrationResponse> register(@Valid @RequestBody RegistrationRequest req) {
         return ResponseEntity.ok(registrationService.register(req));
     }
 

@@ -6,7 +6,7 @@ import com.client_processing.dto.ProductDto;
 import com.client_processing.service.ProductService;
 import com.ms.aspects.annotations.HttpIncomeRequestLog;
 import com.ms.aspects.annotations.Metric;
-import jakarta.websocket.server.PathParam;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -24,7 +24,7 @@ public class ProductController {
     @HttpIncomeRequestLog
     @PreAuthorize("hasRole('MASTER')")
     @PostMapping
-    public ResponseEntity<Dto> create(@RequestBody ProductDto dto) {
+    public ResponseEntity<Dto> create(@Valid @RequestBody ProductDto dto) {
         return service.create(dto);
     }
 

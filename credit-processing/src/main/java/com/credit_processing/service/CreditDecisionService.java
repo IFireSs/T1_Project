@@ -47,6 +47,10 @@ public class CreditDecisionService {
         String clientId = msg.getClientId();
         Long accountId = 0L;
         String productId = msg.getProductId();
+        if (productRepo.existsByProductId(productId)) {
+            log.info("Skip duplicate credit product CREATE for productId={}", productId);
+            return;
+        }
 
         BigDecimal requestAmount = defaultAmount;
         BigDecimal annualRate    = defaultAnnualRate;

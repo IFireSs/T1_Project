@@ -15,6 +15,7 @@ import com.client_processing.security.JwtService;
 import com.client_processing.security.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,6 +30,7 @@ public class RegistrationService {
     private final BlacklistService blacklist;
     private final UserMapper userMapper;
     private final ClientMapper clientMapper;
+    private final PasswordEncoder passwordEncoder;
 
     @Cached
     @LogDatasourceError
@@ -38,7 +40,7 @@ public class RegistrationService {
 
         var user = userRepo.save(User.builder()
                 .login(req.getLogin())
-                .password(req.getPassword())
+                .password(passwordEncoder.encode(req.getPassword()))
                 .email(req.getEmail())
                 .build());
 

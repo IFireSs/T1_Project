@@ -7,6 +7,7 @@ import com.client_processing.dto.Dto;
 import com.client_processing.dto.ErrorDto;
 import com.client_processing.dto.kafka.ClientProductMessage;
 import com.client_processing.entity.ClientProduct;
+import com.client_processing.enums.ProductKey;
 import com.client_processing.kafka.ClientKafkaProducer;
 import com.client_processing.mapper.ClientProductMapper;
 import com.client_processing.mapper.KafkaMapper;
@@ -43,7 +44,8 @@ public class ClientPortfolioService {
         if(!clientRepo.existsByClientId(dto.getClientId())) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ErrorDto.builder().Response("Client not found").build());
         }
-        if (!productRepo.existsByProductId(dto.getProductId())){
+        var product = productRepo.findByProductId(dto.getProductId());
+        if (product == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ErrorDto.builder().Response("Product not found").build());
         }
         var boundOpt = repo.findByProductId(dto.getProductId());
@@ -61,7 +63,7 @@ public class ClientPortfolioService {
         clientProduct.setStatus(dto.getStatus());
         repo.save(clientProduct);
         var msg = kafkaMapper.toClientProductMessage(dto, ClientProductMessage.Op.CREATE);
-        producer.publishClientProduct(msg);
+        publishClientProduct(product.getKey(), msg);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
@@ -72,7 +74,8 @@ public class ClientPortfolioService {
         if (!clientRepo.existsByClientId(dto.getClientId())) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ErrorDto.builder().Response("Client not found").build());
         }
-        if (!productRepo.existsByProductId(dto.getProductId())) {
+        var product = productRepo.findByProductId(dto.getProductId());
+        if (product == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ErrorDto.builder().Response("Product not found").build());
         }
 
@@ -92,7 +95,7 @@ public class ClientPortfolioService {
         repo.save(clientProduct);
 
         var msg = kafkaMapper.toClientProductMessage(dto, ClientProductMessage.Op.UPDATE);
-        producer.publishClientProduct(msg);
+        publishClientProduct(product.getKey(), msg);
         return ResponseEntity.ok(dto);
 
     }
@@ -123,7 +126,22 @@ public class ClientPortfolioService {
         }
 
         var msg = kafkaMapper.toClientProductMessage(dto, ClientProductMessage.Op.DELETE);
-        producer.publishClientProduct(msg);
+        var product = productRepo.findByProductId(dto.getProductId());
+        if (product != null) {
+            publishClientProduct(product.getKey(), msg);
+        }
         repo.deleteByProductId(dto.getProductId());
+    }
+
+    private void publishClientProduct(ProductKey key, ClientProductMessage msg) {
+        if (isCredit(key)) {
+            producer.publishClientCreditProduct(msg);
+        } else {
+            producer.publishClientProduct(msg);
+        }
+    }
+
+    private boolean isCredit(ProductKey key) {
+        return key == ProductKey.IPO || key == ProductKey.PC || key == ProductKey.AC;
     }
 }

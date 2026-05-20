@@ -13,6 +13,7 @@ import java.util.List;
 @Repository
 public interface ProductRegistryRepo extends JpaRepository<ProductRegistry, Long> {
     List<ProductRegistry> findByClientId(String clientId);
+    boolean existsByProductId(String productId);
     @Query("select coalesce(sum(p.principalAmount), 0) from ProductRegistry p where p.clientId = :clientId")
     BigDecimal sumPrincipalByClientId(@Param("clientId") String clientId);
 }

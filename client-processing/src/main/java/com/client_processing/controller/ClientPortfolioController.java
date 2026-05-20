@@ -2,10 +2,10 @@ package com.client_processing.controller;
 
 import com.client_processing.dto.ClientProductDto;
 import com.client_processing.dto.Dto;
-import com.client_processing.enums.ProductKey;
 import com.client_processing.service.ClientPortfolioService;
 import com.ms.aspects.annotations.HttpIncomeRequestLog;
 import com.ms.aspects.annotations.Metric;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +22,7 @@ public class ClientPortfolioController {
     @Metric
     @HttpIncomeRequestLog
     @PostMapping
-    public ResponseEntity<Dto> create(@RequestBody ClientProductDto dto) {
+    public ResponseEntity<Dto> create(@Valid @RequestBody ClientProductDto dto) {
         return service.create(dto);
     }
 
@@ -51,7 +51,7 @@ public class ClientPortfolioController {
     @Metric
     @HttpIncomeRequestLog
     @DeleteMapping
-    public ResponseEntity<Void> delete(@RequestBody ClientProductDto dto) {
+    public ResponseEntity<Void> delete(@Valid @RequestBody ClientProductDto dto) {
         service.delete(dto);
         return ResponseEntity.noContent().build();
     }

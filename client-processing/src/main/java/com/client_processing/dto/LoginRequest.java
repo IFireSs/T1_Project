@@ -1,8 +1,6 @@
 package com.client_processing.dto;
 
-import com.client_processing.enums.PaymentSystem;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,11 +10,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CreateCardDto {
+public class LoginRequest {
     @NotBlank
-    private String clientId;
+    private String login;
     @NotBlank
-    private String productId;
-    @NotNull
-    private PaymentSystem paymentSystem;
+    private String password;
 }

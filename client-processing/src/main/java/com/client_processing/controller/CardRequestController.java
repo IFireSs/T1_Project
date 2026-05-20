@@ -4,6 +4,7 @@ import com.client_processing.dto.CreateCardDto;
 import com.client_processing.service.CardService;
 import com.ms.aspects.annotations.HttpIncomeRequestLog;
 import com.ms.aspects.annotations.Metric;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +18,7 @@ public class CardRequestController {
     @Metric
     @HttpIncomeRequestLog
     @PostMapping("/create")
-    public ResponseEntity<Void> requestCard(@RequestBody CreateCardDto dto) {
+    public ResponseEntity<Void> requestCard(@Valid @RequestBody CreateCardDto dto) {
         return cardService.requestCard(dto);
     }
 }

@@ -2,6 +2,8 @@ package com.client_processing.service;
 
 import com.client_processing.dto.ClientProductDto;
 import com.client_processing.dto.kafka.ClientProductMessage;
+import com.client_processing.entity.Product;
+import com.client_processing.enums.ProductKey;
 import com.client_processing.kafka.ClientKafkaProducer;
 import com.client_processing.mapper.ClientProductMapper;
 import com.client_processing.mapper.KafkaMapper;
@@ -10,14 +12,12 @@ import com.client_processing.repository.ClientRepository;
 import com.client_processing.repository.ProductRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
@@ -38,6 +38,7 @@ class ClientPortfolioServiceTest {
     void delete_sendsKafkaAndDeletes_whenProductExists() {
         var dto = ClientProductDto.builder().clientId("C1").productId("P1").build();
         when(repo.findByProductId("P1")).thenReturn(Optional.of(new com.client_processing.entity.ClientProduct()));
+        when(productRepo.findByProductId("P1")).thenReturn(product(ProductKey.DC));
         var msg = new ClientProductMessage();
         when(kafkaMapper.toClientProductMessage(eq(dto), eq(ClientProductMessage.Op.DELETE))).thenReturn(msg);
 
@@ -45,6 +46,21 @@ class ClientPortfolioServiceTest {
 
         verify(repo).deleteByProductId("P1");
         verify(producer).publishClientProduct(msg);
+    }
+
+    @Test
+    void delete_sendsCreditKafka_whenCreditProductExists() {
+        var dto = ClientProductDto.builder().clientId("C1").productId("P1").build();
+        when(repo.findByProductId("P1")).thenReturn(Optional.of(new com.client_processing.entity.ClientProduct()));
+        when(productRepo.findByProductId("P1")).thenReturn(product(ProductKey.PC));
+        var msg = new ClientProductMessage();
+        when(kafkaMapper.toClientProductMessage(eq(dto), eq(ClientProductMessage.Op.DELETE))).thenReturn(msg);
+
+        service.delete(dto);
+
+        verify(repo).deleteByProductId("P1");
+        verify(producer).publishClientCreditProduct(msg);
+        verify(producer, never()).publishClientProduct(msg);
     }
 
     @Test
@@ -56,5 +72,11 @@ class ClientPortfolioServiceTest {
 
         verify(repo, never()).deleteByProductId(any());
         verifyNoInteractions(producer);
+    }
+
+    private Product product(ProductKey key) {
+        var product = new Product();
+        product.setKey(key);
+        return product;
     }
 }

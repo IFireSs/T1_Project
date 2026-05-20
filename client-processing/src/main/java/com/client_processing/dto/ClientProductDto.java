@@ -1,7 +1,7 @@
 package com.client_processing.dto;
 
 import com.client_processing.enums.ClientProductStatus;
-import com.client_processing.enums.ProductKey;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,9 +17,14 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Builder
 public class ClientProductDto extends Dto {
+    @NotBlank
     private String clientId;
+    @NotBlank
     private String productId;
+    @Builder.Default
     private LocalDate openDate = LocalDate.now();
-    private LocalDate closeDate = openDate.plusYears(5);
-    private ClientProductStatus status;
+    @Builder.Default
+    private LocalDate closeDate = LocalDate.now().plusYears(5);
+    @Builder.Default
+    private ClientProductStatus status = ClientProductStatus.ACTIVE;
 }
